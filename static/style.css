@@ -1,0 +1,58 @@
+body{
+font-family: Arial;
+background:#f2f2f2;
+margin:0;
+}
+
+.main{
+display:flex;
+height:100vh;
+}
+
+/* LEFT SIDE */
+.left{
+width:20%;
+background:#0077b6;
+color:white;
+text-align:center;
+padding-top:40px;
+}
+
+.photo{
+width:130px;
+height:130px;
+border-radius:50%;
+margin-top:20px;
+}
+
+/* CENTER */
+.center{
+width:50%;
+text-align:center;
+padding-top:70px;
+}
+
+input{
+padding:10px;
+margin:8px;
+width:200px;
+}
+
+button{
+padding:10px 20px;
+margin:10px;
+cursor:pointer;
+}
+
+/* RIGHT */
+.right{
+width:30%;
+background:white;
+padding:20px;
+overflow:auto;
+}
+
+pre{
+background:#f4f4f4;
+padding:10px;
+}

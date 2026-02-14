@@ -1,0 +1,21 @@
+{
+    "train_accuracy": 0.9583333333333334,
+    "train_confusion_matrix": [
+        [
+            42,
+            0,
+            0
+        ],
+        [
+            0,
+            36,
+            2
+        ],
+        [
+            0,
+            3,
+            37
+        ]
+    ],
+    "train_classification_report": "              precision    recall  f1-score   support\n\n           0       1.00      1.00      1.00        42\n           1       0.92      0.95      0.94        38\n           2       0.95      0.93      0.94        40\n\n    accuracy                           0.96       120\n   macro avg       0.96      0.96      0.96       120\nweighted avg       0.96      0.96      0.96       120\n"
+}

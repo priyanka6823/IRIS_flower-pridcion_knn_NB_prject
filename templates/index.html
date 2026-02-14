@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iris Classification</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="main">
+
+<!-- LEFT -->
+<div class="left">
+    <h2>Iris Project</h2>
+    <img src="/static/photo.jpeg" class="photo">
+    <h3>Kottamula Priyanka</h3>
+</div>
+
+<!-- CENTER -->
+<div class="center">
+
+    <h2>Enter Values</h2>
+
+    <input id="sl" placeholder="Sepal Length">
+    <input id="sw" placeholder="Sepal Width">
+    <input id="pl" placeholder="Petal Length">
+    <input id="pw" placeholder="Petal Width">
+
+    <h3 id="modelText">Selected Model: KNN</h3>
+
+    <button onclick="selectModel('knn')">KNN</button>
+    <button onclick="selectModel('nb')">Naive Bayes</button>
+
+    <br><br>
+    <button onclick="predict()">Predict</button>
+
+    <h2 id="prediction"></h2>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+    <h3>Train Results</h3>
+    <p id="train_acc"></p>
+    <pre id="train_cm"></pre>
+    <pre id="train_report"></pre>
+
+    <h3>Test Results</h3>
+    <p id="test_acc"></p>
+    <pre id="test_cm"></pre>
+    <pre id="test_report"></pre>
+</div>
+
+</div>
+
+<script>
+let selectedModel = "knn";
+
+function selectModel(model){
+    selectedModel = model;
+    document.getElementById("modelText").innerText =
+        "Selected Model: " + (model === "knn" ? "KNN" : "Naive Bayes");
+}
+
+function formatReport(report){
+    let txt = "";
+    for (let k in report){
+        if (k === "accuracy" || k === "macro avg" || k === "weighted avg") continue;
+        txt += "Class " + k +
+               " | Precision: " + report[k]["precision"].toFixed(2) +
+               " | Recall: " + report[k]["recall"].toFixed(2) +
+               " | F1: " + report[k]["f1-score"].toFixed(2) + "\n";
+    }
+    return txt;
+}
+
+function predict(){
+    fetch("/predict", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            sl: document.getElementById("sl").value,
+            sw: document.getElementById("sw").value,
+            pl: document.getElementById("pl").value,
+            pw: document.getElementById("pw").value,
+            model: selectedModel
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("prediction").innerText =
+            "Prediction : " + data.prediction_number +
+            " (" + data.prediction_name + ")";
+
+        document.getElementById("train_acc").innerText =
+            "Train Accuracy : " + data.train_accuracy;
+
+        document.getElementById("test_acc").innerText =
+            "Test Accuracy : " + data.test_accuracy;
+
+        document.getElementById("train_cm").innerText =
+            "Train CM:\n" + JSON.stringify(data.train_cm);
+
+        document.getElementById("test_cm").innerText =
+            "Test CM:\n" + JSON.stringify(data.test_cm);
+
+        document.getElementById("train_report").innerText =
+            formatReport(data.train_report);
+
+        document.getElementById("test_report").innerText =
+            formatReport(data.test_report);
+    });
+}
+</script>
+
+</body>
+</html>
